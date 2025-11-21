@@ -1,67 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veilian Chat</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-</head>
-<body>
+body {
+  font-family: Arial, sans-serif;
+  margin:0; padding:0;
+  background:#f2f2f2;
+}
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <input id="usernameInput" placeholder="@username" type="text" />
-  <input id="passwordInput" placeholder="password" type="password" />
-  <div class="login-buttons">
-    <button onclick="signup()">Sign Up</button>
-    <button onclick="login()">Login</button>
-  </div>
-  <div id="error-msg"></div>
-</div>
+#error-msg { color:red; margin-top:10px; }
 
-<!-- CHAT SCREEN -->
-<div id="chatScreen" style="display:none;">
-  <div class="chat-header">
-    <div class="user-bongle" onclick="openProfile(currentUser.username)">
-      <img id="userAvatar" src="/uploads/profilePics/default.png" />
-      <span id="userDisplay"></span>
-    </div>
-  </div>
+#loginScreen {
+  width:100%; height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+}
 
-  <div id="messages"></div>
+#loginScreen input {
+  display:block;
+  margin:5px;
+  padding:10px;
+  width:250px;
+}
 
-  <div class="chat-input">
-    <input id="chatMessage" placeholder="Enter message..." type="text" />
-    <button onclick="sendMessage()">Send</button>
-  </div>
+.login-buttons {
+  display:flex;
+  justify-content:space-between;
+  width:260px;
+  margin-top:10px;
+}
 
-  <div id="adminPanel" style="display:none;">
-    <input id="banUserInput" placeholder="@username" type="text" />
-    <div class="admin-buttons">
-      <button onclick="banUser()">Ban</button>
-      <button onclick="unbanUser()">Unban</button>
-      <button onclick="makeModerator()">Make Moderator</button>
-    </div>
-  </div>
-</div>
+.login-buttons button {
+  width:125px; padding:10px;
+}
 
-<!-- PROFILE MODAL -->
-<div id="profilePage">
-  <div class="profile-content">
-    <button id="closeProfileBtn" onclick="closeProfile()">X</button>
-    <img id="profileAvatar" onclick="uploadAvatar()" src="/uploads/profilePics/default.png" />
-    <input type="file" id="avatarInput" style="display:none" onchange="submitAvatar(event)">
-    <h3 id="profileUsername"></h3>
-    <textarea id="profileBio" readonly></textarea>
-    <div id="editButtons" style="display:none">
-      <button onclick="editBio()">Edit</button>
-      <button id="saveBioBtn" onclick="saveBio()" style="display:none">Save</button>
-    </div>
-    <p id="profileJoinDate"></p>
-  </div>
-</div>
+#chatScreen {
+  display:flex; flex-direction:column; height:100vh; padding:10px;
+}
 
-<script src="app.js"></script>
-</body>
-</html>
+.chat-header {
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+.user-bongle {
+  display:flex; align-items:center; cursor:pointer;
+}
+
+.user-bongle img { width:40px; height:40px; border-radius:50%; margin-right:10px; }
+
+#messages {
+  flex:1; overflow-y:auto; background:#fff; margin:10px 0; padding:10px;
+  border-radius:5px; border:1px solid #ccc;
+}
+
+.message { margin-bottom:5px; }
+.message img { width:30px; height:30px; border-radius:50%; margin-right:5px; vertical-align:middle; }
+.message .username { font-weight:bold; cursor:pointer; }
+.message .msg-text { margin-left:5px; }
+
+.chat-input { display:flex; gap:5px; }
+.chat-input input { flex:1; padding:10px; }
+.chat-input button { padding:10px; }
+
+#adminPanel { display:flex; flex-direction:column; gap:5px; }
+
+#profilePage {
+  position:fixed; top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.7);
+  display:flex; justify-content:center; align-items:center;
+}
+
+.profile-content {
+  background:#fff; padding:20px; border-radius:10px;
+  width:300px; text-align:center; position:relative;
+}
+
+#closeProfileBtn {
+  position:absolute; top:10px; right:10px;
+  background:red; color:white; border:none; border-radius:50%;
+  width:30px; height:30px; cursor:pointer;
+}
+
+.profile-content img { width:100px; height:100px; border-radius:50%; cursor:pointer; }
+.profile-content textarea { width:100%; height:80px; margin-top:10px; resize:none; }
+.profile-content button { margin-top:10px; padding:5px 10px; }
