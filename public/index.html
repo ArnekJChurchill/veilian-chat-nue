@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veilian Chat</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <input id="usernameInput" placeholder="@username" type="text" />
+  <input id="passwordInput" placeholder="password" type="password" />
+  <div class="login-buttons">
+    <button onclick="signup()">Sign Up</button>
+    <button onclick="login()">Login</button>
+  </div>
+  <div id="error-msg"></div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="chatScreen" style="display:none;">
+  <div class="chat-header">
+    <div class="user-bongle" onclick="openProfile(currentUser.username)">
+      <img id="userAvatar" src="/uploads/profilePics/default.png" />
+      <span id="userDisplay"></span>
+    </div>
+  </div>
+
+  <div id="messages"></div>
+
+  <div class="chat-input">
+    <input id="chatMessage" placeholder="Enter message..." type="text" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <div id="adminPanel" style="display:none;">
+    <input id="banUserInput" placeholder="@username" type="text" />
+    <div class="admin-buttons">
+      <button onclick="banUser()">Ban</button>
+      <button onclick="unbanUser()">Unban</button>
+      <button onclick="makeModerator()">Make Moderator</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profilePage">
+  <div class="profile-content">
+    <button id="closeProfileBtn" onclick="closeProfile()">X</button>
+    <img id="profileAvatar" onclick="uploadAvatar()" src="/uploads/profilePics/default.png" />
+    <input type="file" id="avatarInput" style="display:none" onchange="submitAvatar(event)">
+    <h3 id="profileUsername"></h3>
+    <textarea id="profileBio" readonly></textarea>
+    <div id="editButtons" style="display:none">
+      <button onclick="editBio()">Edit</button>
+      <button id="saveBioBtn" onclick="saveBio()" style="display:none">Save</button>
+    </div>
+    <p id="profileJoinDate"></p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
 
