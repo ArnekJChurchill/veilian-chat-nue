@@ -18,7 +18,7 @@ async function signup() {
   });
   const data = await res.json();
   if (data.success) loginUser(data.user);
-  else alert(data.message);
+  else document.getElementById("error-msg").innerText = data.message;
 }
 
 async function login() {
@@ -29,7 +29,7 @@ async function login() {
   });
   const data = await res.json();
   if (data.success) loginUser(data.user);
-  else alert(data.message);
+  else document.getElementById("error-msg").innerText = data.message;
 }
 
 function loginUser(user) {
@@ -39,7 +39,6 @@ function loginUser(user) {
   document.getElementById("userDisplay").innerText = user.username;
   document.getElementById("userAvatar").src = "/uploads/profilePics/" + user.avatar;
 
-  // Admin panel only for moderator
   if (user.isModerator) document.getElementById("adminPanel").style.display = "flex";
 }
 
@@ -47,7 +46,7 @@ function loginUser(user) {
 async function sendMessage() {
   const message = document.getElementById("chatMessage").value.trim();
   if (!message) return;
-  await fetch("/send-message", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({username: currentUser.username, message}) });
+  const res = await fetch("/send-message", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({username: currentUser.username, message}) });
   document.getElementById("chatMessage").value = "";
 }
 
