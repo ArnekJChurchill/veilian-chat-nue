@@ -146,4 +146,3 @@ function updateUserAvatarUI({username, avatar}) {
     document.getElementById("userAvatar").src = "/uploads/profilePics/" + avatar;
   }
 }
-
