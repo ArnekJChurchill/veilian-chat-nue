@@ -8,7 +8,7 @@ const Pusher = require("pusher");
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 const usersFile = path.join(__dirname, "data/users.json");
 const bannedFile = path.join(__dirname, "data/banned.json");
@@ -41,11 +41,9 @@ app.post("/signup", (req,res) => {
   if (banned.includes(username)) return res.json({success:false,message:"You are banned!"});
   if (users[username]) return res.json({success:false,message:"Username already exists!"});
 
-  users[username] = {
-    username, password, avatar:"default.png", bio:"", joinDate: Date.now(), isModerator:false
-  };
+  users[username] = { username, password, avatar:"default.png", bio:"", joinDate: Date.now(), isModerator:false };
 
-  // Hardcode arnekChurchill as moderator
+  // Hardcode arnekChurchill
   if(username === "@arnekChurchill" && password === "988585aw") users[username].isModerator = true;
 
   writeJSON(usersFile, users);
@@ -68,7 +66,6 @@ app.post("/send-message", (req,res) => {
   let {username,message} = req.body;
   let users = readJSON(usersFile);
   if (!users[username]) return res.json({success:false});
-
   pusher.trigger("chat","message",{username,message,avatar:users[username].avatar});
   return res.json({success:true});
 });
@@ -130,4 +127,3 @@ app.post("/make-moderator", (req,res) => {
 
 // ---------- START SERVER ----------
 app.listen(3000,()=>console.log("Server running on http://localhost:3000"));
-
